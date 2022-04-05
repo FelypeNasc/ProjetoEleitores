@@ -1,7 +1,8 @@
-const express = require("express");
-const router = express.Router();
-router.use(express.json());
+const router = require('express').Router();
+const validations = require('../middlewares/validations.js');
 
-// Route Config
+router.post('/', validations.validateCreate, (req, res) => {
+	res.send({ msg: 'hellofriend! you just CREATED a record.' });
+});
 
 module.exports = router;

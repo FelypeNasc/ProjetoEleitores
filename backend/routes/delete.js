@@ -1,7 +1,8 @@
-const express = require("express");
-const router = express.Router();
-router.use(express.json());
+const router = require('express').Router();
+const validations = require('../middlewares/validations.js');
 
-// Route Config
+router.delete('/', validations.validateDelete, (req, res) => {
+	res.send({ msg: 'hellofriend! you just DELETED a record.' });
+});
 
 module.exports = router;
