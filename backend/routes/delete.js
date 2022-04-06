@@ -6,7 +6,8 @@ router.delete('/', validations.validateDelete, async (req, res) => {
 	async function deleteUser(id) {
 		const client = new Client();
 		try {
-			let query = 'UPDATE public.eleitores SET deletada = true WHERE id=$1';
+			let query =
+				'UPDATE public.eleitores SET deletada = true, data_delecao = current_timestamp WHERE id=$1';
 			await client.connect();
 			console.log('conectado ao banco');
 			await client.query(query, [id]);
