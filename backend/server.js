@@ -11,6 +11,9 @@ const createRoute = require('./routes/create');
 const readRoute = require('./routes/read');
 const updateRoute = require('./routes/update');
 const deleteRoute = require('./routes/delete');
+app.get('/', (req, res) => {
+	res.send('hellofriend!');
+});
 app.use('/create', createRoute);
 app.use('/read', readRoute);
 app.use('/update', updateRoute);
