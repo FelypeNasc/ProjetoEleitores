@@ -1,11 +1,10 @@
 const router = require('express').Router();
 const validations = require('../middlewares/validations.js');
 const { Client } = require('pg');
-const conf = require('../config/postgres.js');
 
 router.delete('/', validations.validateDelete, async (req, res) => {
 	async function deleteUser(id) {
-		const client = new Client(conf);
+		const client = new Client();
 		try {
 			let query = 'UPDATE public.eleitores SET deletada = true WHERE id=$1';
 			await client.connect();

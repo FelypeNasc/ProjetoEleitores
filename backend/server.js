@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 8000;
+require('dotenv').config();
 
 //parsers
 app.use(express.json());
