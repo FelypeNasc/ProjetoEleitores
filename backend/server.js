@@ -16,7 +16,7 @@ app.use('/read', readRoute);
 app.use('/update', updateRoute);
 app.use('/delete', deleteRoute);
 
-const { Client } = require('pg');
+/* const { Client } = require('pg');
 const client = new Client({
     user: "postgres",
     password: "toRyca123",
@@ -28,7 +28,7 @@ const client = new Client({
 client.connect()
 .then(() => console.log("Working"))
 .catch((e) => console.log("error:", e))
-.finally(() => client.end());
+.finally(() => client.end()); */
 // Route Config
 
 app.listen(port, () => console.log('Server started on port ' + port));
