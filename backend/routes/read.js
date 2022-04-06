@@ -3,13 +3,7 @@ const validations = require('../middlewares/validations.js');
 const { Client } = require('pg');
 
 router.get('/pesquisa', validations.validateRead, (req, res) => {		
-	const client = new Client({
-		user: 'postgres',
-		password: 'toRyca123',
-		host: 'lab.dudeful.com',
-		port: '5432',
-		database: 'eleitores',
-	})
+	const client = new Client();
 
 	let table;
 	let query;
