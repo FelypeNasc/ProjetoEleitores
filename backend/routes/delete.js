@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const validations = require('../middlewares/validations.js');
 const { Client } = require('pg');
-const conf = require('../config/postgres.js');
 
 router.delete('/', validations.validateDelete, async (req, res) => {
 	async function deleteUser(id) {
