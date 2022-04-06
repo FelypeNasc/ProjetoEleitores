@@ -1,27 +1,22 @@
 const router = require('express').Router();
 const validations = require('../middlewares/validations.js');
-const { Client } = require('pg');
+const client = require('../config/postgres.js');
 
-router.get('/', validations.validateDelete, (req, res) => {
-	res.send(deleteUser());
+router.delete('/', validations.validateDelete, async (req, res) => {
+	res.send(await deleteUser(req.body.userId));
 });
 
-async function deleteUser() {
-    const client = new Client({
-        user: 'postgres',
-        password: 'toRyca123',
-        host: 'lab.dudeful.com',
-        port: '5432',
-        database: 'eleitores',
-    });
-    try {
-		let query = 'SELECT nome FROM public.eleitores_nivel_escolar WHERE id=3';
+let query = 'UPDATE public.eleitores SET deletada = true WHERE id=$1';
+
+async function deleteUser(value) {
+	try {
 		await client.connect();
 		console.log('conectado ao banco');
-		let result = await client.query(query);
+		await client.query(query, [value]);
 		await client.end();
-		return result.rows;
+		return true;
 	} catch (e) {
+		await client.query('ROLLBACK');
 		console.log('erro:', e);
 	} finally {
 		await client.end();
