@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 8080;
+const port = 8000;
 
 //parsers
 app.use(express.json());
@@ -11,6 +11,7 @@ const createRoute = require('./routes/create');
 const readRoute = require('./routes/read');
 const updateRoute = require('./routes/update');
 const deleteRoute = require('./routes/delete');
+
 app.use('/create', createRoute);
 app.use('/read', readRoute);
 app.use('/update', updateRoute);
