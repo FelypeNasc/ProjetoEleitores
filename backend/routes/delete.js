@@ -10,8 +10,9 @@ router.delete('/', validations.validateDelete, async (req, res) => {
 			await client.connect();
 			console.log('conectado ao banco');
 			await client.query(query, [id]);
+			console.log('query');
 			await client.end();
-			return result.rows;
+			return 'end-conection';
 		} catch (e) {
 			await client.query('ROLLBACK');
 			console.log('erro:', e);
