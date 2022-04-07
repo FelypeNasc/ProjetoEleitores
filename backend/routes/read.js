@@ -42,11 +42,26 @@ router.get('/pesquisa', validations.validateRead, (req, res) => {
 	}
 
 	if(id2 && id < id2){
-		query = `SELECT * FROM public.eleitores WHERE ${table} BETWEEN ${id} AND ${id2} AND deletada NOT IN(true)
-		`;
+		query = `SELECT 
+			eleitor_nome
+			,eleitor_nome_social
+			,data_nascimento
+			,faixa_renda
+			,nivel_escolar 
+		FROM 
+			public.informacoes_eleitores 
+		WHERE ${table} BETWEEN ${id} AND ${id2} AND deletada NOT IN(true)`;
 	}
 	else{
-		query = `SELECT id, nome FROM public.eleitores WHERE ${table} = ${id} AND deletada NOT IN(true)`;
+		query = `SELECT 
+			eleitor_nome
+			,eleitor_nome_social
+			,data_nascimento
+			,faixa_renda
+			,nivel_escolar 
+		FROM 
+			public.informacoes_eleitores 
+		WHERE ${table} = ${id} AND deletada NOT IN(true)`;
 	}
 
 	if(connect){
