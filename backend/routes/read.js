@@ -17,7 +17,7 @@ router.get('/pesquisa', validations.validateRead, (req, res) => {
 			table = 'renda_id';
 			break;
 		case '2':
-			table = 'nivel_escolar_id';
+			table = 'nivel_id';
 			break;
 		default:
 			connect = false;
@@ -56,7 +56,7 @@ router.get('/pesquisa', validations.validateRead, (req, res) => {
 			,eleitor_nome_social
 			,data_nascimento
 			,faixa_renda
-			,nivel_escolar 
+			,nivel_escolar
 		FROM 
 			public.informacoes_eleitores 
 		WHERE ${table} = ${id} AND deletada NOT IN(true)`;
