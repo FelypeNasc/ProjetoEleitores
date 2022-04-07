@@ -7,13 +7,13 @@ router.put('/', validations.validateUpdate, async (req, res) => {
 
 	try {
 		//apiURL: edtech.dudeful.com:8000/update/?field=nome_social&fieldValue=hellofriend&userId=2
-		const { field, fieldValue, userId } = req.query;
+		const { field, fieldValue, cpf } = req.body;
 
-		const updateData = [fieldValue, userId];
+		const updateData = [fieldValue, cpf];
 
 		console.log(updateData);
 
-		let query = `UPDATE public.eleitores SET ${field}=$1 WHERE id=$2 RETURNING *`;
+		let query = `UPDATE public.eleitores SET ${field}=$1 WHERE cpf=$2 RETURNING *`;
 
 		await client.connect();
 		console.log('Connected to database!');

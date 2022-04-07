@@ -49,17 +49,14 @@ const validateUpdate = (req, res, next) => {
 };
 
 const validateDelete = (req, res, next) => {
-	let query = req.query;
-	console.log(query);
-	if (query) {
+	const cpfRegex = /^\d{1,11}$/;
+	let body = req.body;
+	if (body) {
 		console.log('validateDelete');
-		if (
-			query.hasOwnProperty('userId') &&
-			typeof Number(query.userId) == 'number'
-		) {
-			console.log('Tem userId');
+		if (body.hasOwnProperty('cpf') && cpfRegex.test(body.cpf)) {
+			console.log('Tem CPF');
 			next();
-		} else res.status(400).send('Invalid user id');
+		} else res.status(400).send('Invalid CPF');
 	} else {
 		res.status(400).send('Set a valid id');
 	}

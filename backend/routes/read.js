@@ -2,7 +2,7 @@ const router = require('express').Router();
 const validations = require('../middlewares/validations.js');
 const { Client } = require('pg');
 
-router.get('/pesquisa', validations.validateRead, async (req, res) => {
+router.get('/', validations.validateRead, async (req, res) => {
 	const client = new Client();
 
 	let table;
@@ -28,14 +28,14 @@ router.get('/pesquisa', validations.validateRead, async (req, res) => {
 		id = 1;
 	}
 	if (isNaN(id2) || id2 < id) {
-		if (table === 'renda_id') {
+		if (table === 'renda_id' || (table === 'renda_id' && id > 8)) {
 			id2 = 8;
-		} else {
+		} else if (table === 'nivel_id' || (table === 'nivel_id' && id > 11)) {
 			id2 = 11;
 		}
 	}
 
-	query = `SELECT eleitor_nome,eleitor_nome_social,data_nascimento,faixa_renda,nivel_escolar FROM public.informacoes_eleitores WHERE ${table} BETWEEN ${id} AND ${id2} AND deletada NOT IN(true)`;
+	query = `SELECT eleitor_nome,eleitor_nome_social,data_nascimento,faixa_renda,nivel_escolar FROM public.vw_informacoes_eleitores WHERE ${table} BETWEEN ${id} AND ${id2} AND deletada NOT IN(true)`;
 	/* else {
 		arrayQuery = [table, id];
 		query =

@@ -4,17 +4,17 @@ const { Client } = require('pg');
 
 router.delete('/', validations.validateDelete, async (req, res) => {
 	//FIXME change from 'id' to 'cpf'
-	async function deleteUser(id) {
+	async function deleteUser(cpf) {
 		const client = new Client();
 		try {
 			let query =
-				'UPDATE public.eleitores SET deletada = true, data_delecao = current_timestamp WHERE id=$1';
+				'UPDATE public.eleitores SET deletada = true, data_delecao = current_timestamp WHERE cpf=$1';
 			await client.connect();
 			console.log('conectado ao banco');
-			await client.query(query, [id]);
+			await client.query(query, [cpf]);
 			console.log('query');
 			await client.end();
-			return 'end-conection';
+			return 'USUÁRIO DELETADO COM SUCESSO';
 		} catch (e) {
 			await client.query('ROLLBACK');
 			console.log('erro:', e);
@@ -23,7 +23,7 @@ router.delete('/', validations.validateDelete, async (req, res) => {
 			console.log('Fim da conexão');
 		}
 	}
-	res.send(await deleteUser(req.query.userId));
+	res.send(await deleteUser(req.body.cpf));
 });
 
 module.exports = router;
