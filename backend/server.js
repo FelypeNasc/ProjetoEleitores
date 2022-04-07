@@ -17,6 +17,7 @@ app.use('/create', createRoute);
 app.use('/read', readRoute);
 app.use('/update', updateRoute);
 app.use('/delete', deleteRoute);
+app.use('/', express.static(__dirname + '/../frontend'));
 
 /* const { Client } = require('pg');
 const client = new Client({
