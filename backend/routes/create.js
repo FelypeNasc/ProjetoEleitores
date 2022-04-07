@@ -33,7 +33,6 @@ router.post('/', validations.validateCreate, (req, res) => {
 			client.query('COMMIT');
 		})
 		.catch((err) => {
-			console.error('shit');
 			client.query('ROLLBACK');
 		})
 		.finally(() => {

@@ -3,18 +3,26 @@ const validations = require('../middlewares/validations.js');
 const { Client } = require('pg');
 
 router.put('/', validations.validateUpdate, async (req, res) => {
-	try {
-		const client = new Client();
-		const { userId } = req.query;
+	const client = new Client();
 
-		let query = `UPDATE public.eleitores SET nome_social = test WHERE id=$${userId}`;
+	try {
+		// edtech.dudeful.com:8000/update/?field=nome_social&fieldValue=hellofriend&userId=2
+		const { field, fieldValue, userId } = req.query;
+
+		const updateData = [fieldValue, userId];
+
+		console.log(updateData);
+
+		let query = `UPDATE public.eleitores SET ${field}=$1 WHERE id=$2 RETURNING *`;
 
 		await client.connect();
-		console.log('Connected to the database!');
+		console.log('Connected to database!');
 
-		await client.query(query, [id]);
+		const result = await client.query(query, updateData);
 
-		res.send(await result.rows);
+		console.log(result.rows);
+
+		res.send({ result: result.rows });
 	} catch (error) {
 		await client.query('ROLLBACK');
 		console.error(error);
