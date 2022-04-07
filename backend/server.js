@@ -19,19 +19,4 @@ app.use('/update', updateRoute);
 app.use('/delete', deleteRoute);
 app.use('/', express.static(__dirname + '/../frontend'));
 
-/* const { Client } = require('pg');
-const client = new Client({
-    user: "postgres",
-    password: "toRyca123",
-    host: "lab.dudeful.com",
-    port: "5432",
-    database: "eleitores"
-});
-
-client.connect()
-.then(() => console.log("Working"))
-.catch((e) => console.log("error:", e))
-.finally(() => client.end()); */
-// Route Config
-
 app.listen(port, () => console.log('Server started on port ' + port));

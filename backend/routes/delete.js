@@ -3,8 +3,9 @@ const validations = require('../middlewares/validations.js');
 const { Client } = require('pg');
 
 router.delete('/', validations.validateDelete, async (req, res) => {
+	//FIXME change from 'id' to 'cpf'
 	async function deleteUser(id) {
-		const client = new Client(conf);
+		const client = new Client();
 		try {
 			let query = 'UPDATE public.eleitores SET deletada = true WHERE id=$1';
 			await client.connect();
