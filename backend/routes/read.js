@@ -2,7 +2,7 @@ const router = require('express').Router();
 const validations = require('../middlewares/validations.js');
 const { Client } = require('pg');
 
-router.get('/pesquisa', validations.validateRead, (req, res) => {
+router.get('/pesquisa', validations.validateRead, async (req, res) => {
 	const client = new Client();
 
 	let table;
@@ -11,6 +11,7 @@ router.get('/pesquisa', validations.validateRead, (req, res) => {
 	let id = parseInt(req.query.id);
 	let id2 = parseInt(req.query.id2);
 	let connect = true;
+	let arrayQuery;
 
 	switch (tipo) {
 		case '1':
@@ -41,34 +42,25 @@ router.get('/pesquisa', validations.validateRead, (req, res) => {
 	}
 
 	if (id2 && id < id2) {
-		query = `SELECT 
-			eleitor_nome
-			,eleitor_nome_social
-			,data_nascimento
-			,faixa_renda
-			,nivel_escolar 
-		FROM 
-			public.informacoes_eleitores 
-		WHERE ${table} BETWEEN ${id} AND ${id2} AND deletada NOT IN(true)`;
+		arrayQuery = [table, id, id2];
+		query =
+			'SELECT eleitor_nome,eleitor_nome_social,data_nascimento,faixa_renda,nivel_escolar FROM public.informacoes_eleitores WHERE $1 BETWEEN $2 AND $3 AND deletada NOT IN(true)';
 	} else {
-		query = `SELECT 
-			eleitor_nome
-			,eleitor_nome_social
-			,data_nascimento
-			,faixa_renda
-			,nivel_escolar
-		FROM 
-			public.informacoes_eleitores 
-		WHERE ${table} = ${id} AND deletada NOT IN(true)`;
+		arrayQuery = [table, id];
+		query =
+			'SELECT eleitor_nome,eleitor_nome_social,data_nascimento,faixa_renda,nivel_escolar FROM public.informacoes_eleitores WHERE $1 = $2 AND deletada NOT IN(true)';
 	}
 
 	if (connect) {
-		client
+		await client
 			.connect()
-			.then(() => console.log('conectado ao banco'))
-			.then(() => client.query(query))
-			.then((results) => results.rows)
-			.then((feedback) => res.send(feedback))
+			.then(() => {
+				console.log('conectado ao banco');
+				return client.query(query, arrayQuery);
+			})
+			.then((results) => {
+				res.send(results.rows);
+			})
 			.catch((e) => console.log(e))
 			.finally(() => client.end(), console.log('cliente fechado'));
 	}
