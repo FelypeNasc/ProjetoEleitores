@@ -6,7 +6,7 @@ router.put('/', validations.validateUpdate, async (req, res) => {
 	const client = new Client();
 
 	try {
-		// edtech.dudeful.com:8000/update/?field=nome_social&fieldValue=hellofriend&userId=2
+		//apiURL: edtech.dudeful.com:8000/update/?field=nome_social&fieldValue=hellofriend&userId=2
 		const { field, fieldValue, userId } = req.query;
 
 		const updateData = [fieldValue, userId];
