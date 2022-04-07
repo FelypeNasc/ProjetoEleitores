@@ -17,7 +17,7 @@ const validateCreate = (req, res, next) => {
 		res.status(400).send('Invalid "nome"');
 	} else if (nome_social && !nameRegex.test(nome_social)) {
 		res.status(400).send('Invalid "nome_social"');
-	} else if (typeof cpf !== 'number' || !cpfRegex.test(cpf)) {
+	} else if (typeof cpf !== 'string' || !cpfRegex.test(cpf)) {
 		res.status(400).send('Invalid "cpf"');
 	} else if (
 		typeof data_nascimento !== 'string' ||
@@ -32,6 +32,7 @@ const validateCreate = (req, res, next) => {
 	) {
 		res.status(400).send('Invalid "nivel_escolar_id"');
 	} else {
+		if (!nome_social) req.felype = null;
 		console.log('All validations passed');
 		next();
 	}
