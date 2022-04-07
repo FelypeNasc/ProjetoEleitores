@@ -24,15 +24,9 @@ router.post('/', validations.validateCreate, (req, res) => {
 		// .then((results) => results.rows)
 		// .then((feedback) => res.send(feedback))
 		.then(() => client.query('COMMIT'))
-		.catch(
-			(e) => console.log(e),
-			() => client.query('ROLLBACK')
-		)
-		.finally(
-			() => client.end(),
-			console.log('Connection closed!'),
-			res.send('OK')
-		);
+		.then(() => res.send('Created!'))
+		.catch((e) => console.log(e), client.query('ROLLBACK'))
+		.finally(() => client.end(), console.log('Connection closed!'));
 });
 
 module.exports = router;
